@@ -1,0 +1,16 @@
+1º Interface Visual
+2º Banco de dados dinâmico
+	- Geral
+		- Acesso Público com restrição
+			- Carga horária dos professores
+			- Agendamento de Aula (sem confirmação)
+	- Cadastro do Aluno
+		- Dados de acesso (uso futuro)
+		- Controle fluxo
+	- Professores
+		- Controle de Horários de aulas lecionadas
+		- Carga horária do professor
+	- Salas
+		- Horários (1:30 ou menos)
+		* Blocos de 30m
+3º Financeiro
