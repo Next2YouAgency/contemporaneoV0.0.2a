@@ -120,6 +120,7 @@
                     </li>
                 </ul>
             </li>
+            <li><a href="home.php?acesso=Updates"><i class="glyphicon glyphicon-alert"></i> <span>Atualizações</span></a></li>
             <li><a href="home.php?LogOff"><i class="glyphicon glyphicon-off"></i> <span>Sair</span></a></li>
         </ul>
     </section>

@@ -18,24 +18,25 @@ function CriaRequest() {
     else
         return request;
 }
-function buscarFoto() {
+function ReturnPagamentos() {
     // Declaração de Variáveis
-    var campoUsuario = document.getElementById("usuario").value;
-    var fotoBuscada = document.getElementById("fotoBuscada");
+    var MesSelecionado = document.getElementById("MesDeEscolha").value;
+    var inserir_elemento = document.getElementById("ReturnPagamentos");
+    
     var xmlreq = CriaRequest();
     // Exibi a imagem de progresso
-    fotoBuscada.innerHTML = '<img src="img/hourglass.gif"  class="img-responsive" style="width:100px; margin: 100px auto">';
+    inserir_elemento.innerHTML = '<div class="col-md-6 col-md-push-3 text-center"><img src="img/hourglass.gif" class="img-respomsive"></div>';
     // Iniciar uma requisição
-    xmlreq.open("GET", "pages/requisicao-js/load-photo.php?Load=" + campoUsuario, true);
+    xmlreq.open("GET", "pages/requisicao-js/Pagamentos/returnPagamentosCaixa.php?MesSelecionado=" + MesSelecionado, true);
     // Atribui uma função para ser executada sempre que houver uma mudança de Dado
     xmlreq.onreadystatechange = function () {
         // Verifica se foi concluído com sucesso e a conexão fechada (readyState=4) 
         if (xmlreq.readyState == 4) {
             // Verifica se o arquivo foi encontrado com sucesso
             if (xmlreq.status == 200) {
-                fotoBuscada.innerHTML = xmlreq.responseText;
+                inserir_elemento.innerHTML = xmlreq.responseText;
             } else {
-                inserir_pagina.innerHTML = "Erro: " + xmlreq.statusText;
+                inserir_elemento.innerHTML = "Erro: " + xmlreq.statusText;
             }
         }
     };

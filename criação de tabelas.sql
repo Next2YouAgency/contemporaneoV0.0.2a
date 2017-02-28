@@ -302,7 +302,7 @@ CREATE TABLE escolaridade_yoshio(
 /*Tabela de Pagamentos */
 CREATE TABLE pagamentos_efetuados (
  id int(11) NOT NULL AUTO_INCREMENT,
- id_agendamento int(11) NOT NULL,
+ id_agendamento int(11),
  matricula varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
  nome_aluno varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
  valor_pagamento float NOT NULL,
@@ -311,9 +311,75 @@ CREATE TABLE pagamentos_efetuados (
  data_confirmacao_dia varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
  data_confirmacao_mes varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
  data_confirmacao_ano varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
+ data_confirmacao_completo varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+/*Inserir Registros base de pagamentos*/
+INSERT INTO `pagamentos_efetuados` (
+`id`, 
+`id_agendamento`, 
+`matricula`, 
+`nome_aluno`, 
+`valor_pagamento`, 
+`forma_pagamento`, 
+`comprovante_pagamento`, 
+`data_confirmacao_dia`, 
+`data_confirmacao_mes`, 
+`data_confirmacao_ano`, 
+`data_confirmacao_completo`) 
+VALUES 
+(NULL, NULL, '', '', '0', '', '', '01', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '02', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '03', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '04', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '05', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '06', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '07', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '08', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '09', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '10', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '11', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '12', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '13', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '14', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '15', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '16', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '17', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '18', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '19', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '20', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '21', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '22', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '23', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '24', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '25', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '26', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '27', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '28', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '29', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '30', '01', '2017', ''),
+(NULL, NULL, '', '', '0', '', '', '31', '01', '2017', '');
+
 /*Fim tabela de Pagamentos*/
-/*Tabela de salas update
-CREATE TABLE sala1 (id int(11) NOT NULL PRIMARY KEY, entrada float, saida float, status int(11) NOT NULL DEFAULT '0', materia varchar(255)NULL, professor varchar(255) NULL, exibir_entrada varchar(255), exibir_saida varchar(255), compartilhada int NULL, aluno id(11) NULL DEFAULT 0 FOREIGN KEY (aluno) references alunos(matricula_aluno))ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci
-*/
+
+/*Criação da tabela de Updates*/
+CREATE TABLE updates_sistema(
+id int(11) NOT NULL AUTO_INCREMENT,
+usuario varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
+dia_update varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
+titulo_update varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
+tipo_update varchar(255) COLLATE utf8_general_mysql500_ci NOT NULL,
+descricao varchar(500) COLLATE utf8_general_mysql500_ci NOT NULL,
+PRIMARY KEY(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+/*Inserir Dados dos updates*/
+INSERT INTO updates_sistema(
+id,
+usuario,
+dia_update,
+titulo_update,
+tipo_update,
+descricao)VALUES
+(NULL, 'master', '01-02-2017', 'Editar Cadastro Aluno', 'Alunos', 'Permissão de Editar o cadastro dos alunos');

@@ -4,7 +4,7 @@ if (isset($_GET['Load'])) {
     include '../../cnf/config.php';
     $foto = $_GET['Load'];
     $QueryBuscarFoto = "SELECT foto FROM usuarios WHERE usuario = '$foto'";
-//    sleep(1);
+    sleep(1);
     $resultBuscarFoto = mysql_query($QueryBuscarFoto);
     $ContBuscarFoto = mysql_affected_rows($conexao);
 

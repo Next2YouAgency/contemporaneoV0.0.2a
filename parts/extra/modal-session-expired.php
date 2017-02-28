@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div>
                     <div class="col-md-10 col-md-push-1 text-center" style="padding-left: 0;padding-right: 0">
-                        <img src="img/ajax-loader.gif" class="img-responsive" style="margin:0 auto;">
+                        <img src="img/hourglass.gif" class="img-responsive" style="width:100px; margin:0 auto;">
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-10 col-md-push-1 text-center" style="margin-top: 30px">

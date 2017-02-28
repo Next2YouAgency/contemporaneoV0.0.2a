@@ -9,8 +9,9 @@ if (isset($_POST['SalvarPagamentos'])) {
     $matriculaPagamento[DataConfirmacaoDia] = date('d');
     $matriculaPagamento[DataConfirmacaoMes] = date('m');
     $matriculaPagamento[DataConfirmacaoAno] = date('Y');
+    $matriculaPagamento[DataConfirmacaoCompleto] = date('d-m-Y');
 
-    $QueryInsertPagamentos = "INSERT INTO pagamentos_efetuados (id,id_agendamento,matricula,nome_aluno,valor_pagamento,forma_pagamento,comprovante_pagamento,data_confirmacao_dia,data_confirmacao_mes,data_confirmacao_ano) VALUES (NULL, '$matriculaPagamento[IdAula]', '$matriculaPagamento[Matricula]', '$matriculaPagamento[NomeAluno]', '$matriculaPagamento[ValorPagamento]', '$matriculaPagamento[FormaPagamento]', '$matriculaPagamento[ComprovantePagamento]', '$matriculaPagamento[DataConfirmacaoDia]', '$matriculaPagamento[DataConfirmacaoMes]', '$matriculaPagamento[DataConfirmacaoAno]')";
+    $QueryInsertPagamentos = "INSERT INTO pagamentos_efetuados (id,id_agendamento,matricula,nome_aluno,valor_pagamento,forma_pagamento,comprovante_pagamento,data_confirmacao_dia,data_confirmacao_mes,data_confirmacao_ano,data_confirmacao_completo) VALUES (NULL, '$matriculaPagamento[IdAula]', '$matriculaPagamento[Matricula]', '$matriculaPagamento[NomeAluno]', '$matriculaPagamento[ValorPagamento]', '$matriculaPagamento[FormaPagamento]', '$matriculaPagamento[ComprovantePagamento]', '$matriculaPagamento[DataConfirmacaoDia]', '$matriculaPagamento[DataConfirmacaoMes]', '$matriculaPagamento[DataConfirmacaoAno]','$matriculaPagamento[DataConfirmacaoCompleto]')";
     $ExeQrInsertPagamentos = mysql_query($QueryInsertPagamentos);
     $QueryUpdateAgenda = "UPDATE agenda_aulas SET pagamento = 'sim', comprovante_pagamento = '$matriculaPagamento[ComprovantePagamento]' WHERE id = '$matriculaPagamento[IdAula]'";
     $ExeQrUpdateAgenda = mysql_query($QueryUpdateAgenda);
@@ -35,41 +36,6 @@ if (isset($_POST['EnviarComprovante'])) {
     $QtdHoraAula = $_POST['QtdHoraAula'];
     $ValorAula = $_POST['ValorAula'];
     $DataComprovante;
-    $pdf = new Cezpdf();
-    $pdf->selectFont('cnf/pdf/fonts/Helvetica.afm');
-    $pdf->ezText('Comprovante de pagamento', 20, array(justification => 'center', spacing => 2.0));
-    $pdf->ezText($NomeResponsavel, 15, array(justification => 'left', spacing => 3.0));
-    $mensagem = '
-                <!--Core jQuery-->
-                <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-
-                <!-- Latest compiled and minified JavaScript -->
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-                <!-- Latest compiled and minified CSS -->
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-                <h3>Ol&aacute; ' . $NomeResponsavel . '</h3>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="col-xs-4 col-sm-6 col-md-8 col-lg-10">
-                                <h4>Comprovante de pagamento da aula: ' . $DisciplinaAula . '</h4>
-                                <p class="lead">
-                                    
-                                </p>
-                                <p>Seu cadastro est&aacute; quase completo, para concluir, precisamos que confirme seu cadastro clicando no link abaixo:<br>
-                                <a href="http://ssoffice.com.br/index.php?ativar=y&registro_pessoa=' . $reg_pessoa_codificado . '">Ativar cadastro</a>
-                                </p>
-
-                                <p>
-                                        Caso o link acima n&atilde;o funcione, copie o link a seguir e cole na barra de endereço do seu navegador:
-                                        http://ssoffice.com.br/index.php?ativar=y&registro_pessoa=' . $reg_pessoa_codificado . '
-                                </p>
-
-                        </div>
-                </div>
-                
-        ';
-
-    $enviar = sendMail('Cadastro no sistema SS Advogados', $mensagem, "Teste de envio (Sem HTML)", MAILUSER, SITENAME, $email_principal, $nome_cadastro);
 }
 ?>
 <script src="js/Pagamentos/Cheques.js"></script>
@@ -133,8 +99,17 @@ if (isset($_POST['EnviarComprovante'])) {
                             ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="selecionado<?php echo $ReturnPagamentos[matricula] ?>" id="selecionado1" onclick="AdicionarPagamentoMultiplo();" value="<?php echo $ResBuscarPagamentos['id'] ?>">
-                                    <input type="hidden" name="selecionarMatricula" value="<?php echo $ReturnPagamentos[valor] ?>">
+                                    <?php
+                                    if ($ReturnPagamentos[pagamento] == "nao") {
+                                        ?>
+                                        <input type="checkbox" name="selecionado<?php echo $ReturnPagamentos[matricula] ?>" id="selecionado1" onclick="AdicionarPagamentoMultiplo();" value="<?php echo $ResBuscarPagamentos['valor'] ?>">
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <i class="glyphicon glyphicon-check text-success" title="Pagamento já efetuado"></i>
+                                        <?php
+                                    }
+                                    ?>
                                 </td>
                                 <td><?php echo $ReturnPagamentos[matricula] ?></td>
                                 <td><?php echo $ReturnPagamentos[responsavel_pagamento] ?></td>
@@ -204,8 +179,17 @@ if (isset($_POST['EnviarComprovante'])) {
                             ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="selecionado<?php echo $ReturnPagamentos[matricula] ?>" id="selecionado1" onclick="AdicionarPagamentoMultiplo();" value="<?php echo $ResBuscarPagamentos['id'] ?>">
-                                    <input type="hidden" name="selecionarMatricula" value="<?php echo $ReturnPagamentos[valor] ?>">
+                                    <?php
+                                    if ($ReturnPagamentos[pagamento] == "nao") {
+                                        ?>
+                                        <input type="checkbox" name="selecionado<?php echo $ReturnPagamentos[matricula] ?>" id="selecionado1" onclick="AdicionarPagamentoMultiplo();" value="<?php echo $ResBuscarPagamentos['valor'] ?>">
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <i class="glyphicon glyphicon-check text-success" title="Pagamento já efetuado"></i>
+                                        <?php
+                                    }
+                                    ?>
                                 </td>
                                 <td><?php echo $ReturnPagamentos[matricula] ?></td>
                                 <td><?php echo $ReturnPagamentos[responsavel_pagamento] ?></td>
@@ -276,9 +260,17 @@ if (isset($_POST['EnviarComprovante'])) {
                     ?>
                     <tr>
                         <td>
-                            <input type="checkbox" name="selecionado<?php echo $ReturnPagamentos[matricula] ?>" id="selecionado<?php echo $ReturnPagamentos[id] ?>" onclick="AdicionarPagamentoMultiplo<?php echo $ReturnPagamentos[id] ?>();" value="<?php echo $ResBuscarPagamentos['id'] ?>">
-                            <input type="hidden" name="selecionarMatricula" id="selecionadoItem<?php echo $ReturnPagamentos[id] ?>" value="<?php echo $ReturnPagamentos[valor] ?>">
-                            <input type="hidden" name="selecionarMatricula" id="Registro<?php echo $ReturnPagamentos[id] ?>" value="<?php echo $ReturnPagamentos[id] ?>">
+                            <?php
+                            if ($ReturnPagamentos[pagamento] == "nao") {
+                                ?>
+                                <input type="checkbox" name="selecionado<?php echo $ReturnPagamentos[matricula] ?>" id="selecionado1" onclick="AdicionarPagamentoMultiplo();" value="<?php echo $ResBuscarPagamentos['valor'] ?>">
+                                <?php
+                            } else {
+                                ?>
+                                <i class="glyphicon glyphicon-check text-success" title="Pagamento já efetuado"></i>
+                                <?php
+                            }
+                            ?>
                         </td>
                         <td><?php echo $ReturnPagamentos[matricula] ?></td>
                         <td><?php echo $ReturnPagamentos[responsavel_pagamento] ?></td>
@@ -330,6 +322,19 @@ if (isset($_POST['EnviarComprovante'])) {
                 }
             }
             ?>
+            <script>
+                function soma(e) {
+                    var total = 0;
+                    var valores = $('input[type="checkbox"]:checked');
+                    $.each(valores, function (i, v) {
+                        total = parseFloat(total) + parseFloat($(v).val());
+                    });
+
+                    $("#totalPagamento").val(total);
+                }
+
+                $('input[type="checkbox"]').on('change', soma);
+            </script>
             <tr><td colspan="11"></td></tr>
             <tr>
                 <td colspan="11"><span class="col-md-12 text-left">Total selecionado: </span></td>
@@ -349,4 +354,3 @@ if (isset($_POST['EnviarComprovante'])) {
     </table>
 </section>
 <div id="modal_alterar_pagamento"></div>
-<?php
